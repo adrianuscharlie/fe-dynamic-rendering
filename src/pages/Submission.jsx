@@ -19,7 +19,7 @@ export default function SubmissionPage() {
     }, [appId]);
 
     return (
-        <div className="min-h-screen w-full px-20 flex flex-col justify-between bg-slate-100">
+        <div className="min-h-screen w-full px-20 flex flex-col justify-start bg-slate-100">
             {/* Header */}
             <div className="py-6">
                 <h1 className="text-2xl font-bold">dkowhsoidns</h1>

@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FieldMapper } from '../../components/dynamic-engine/FieldMapper';
-
-import { getGroup, saveDraft } from '../../services/api';
+import { getGroup, saveDraft } from '../../services/api'; // Check your imports
 
 const DynamicGroup = forwardRef(({ appId, groupNo }, ref) => {
-    console.log("DynamicGroup rendered with appId:", appId, "and groupNo:", groupNo);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-
     const methods = useForm();
 
     useEffect(() => {
@@ -29,8 +26,7 @@ const DynamicGroup = forwardRef(({ appId, groupNo }, ref) => {
             });
 
         return () => { active = false; };
-    }, [appId, groupNo, methods.reset]);
-
+    }, [appId, groupNo, methods]);
 
     useImperativeHandle(ref, () => ({
         triggerSave: async () => {
@@ -38,7 +34,6 @@ const DynamicGroup = forwardRef(({ appId, groupNo }, ref) => {
                 methods.handleSubmit(
                     async (formData) => {
                         try {
-
                             await saveDraft(appId, groupNo, formData);
                             resolve(true);
                         } catch (error) {
@@ -54,62 +49,68 @@ const DynamicGroup = forwardRef(({ appId, groupNo }, ref) => {
                 )();
             });
         }
-    }), [appId, groupNo]);
+    }), [appId, groupNo, methods]);
+
 
     if (loading) return <div className="p-10 text-center animate-pulse">Loading...</div>;
-    if (!data) return <div className="p-10 text-red-500">Failed to load data</div>;
+
+
+    if (!data || !data.data || !data.data.items) {
+        return <div className="p-10 text-red-500">Failed to load data or Invalid Schema</div>;
+    }
+
+    const formGroups = data.data.items;
+    const renderFieldList = (fieldList) => (
+        fieldList?.map((field) => (
+            <div key={field.field_key} className="w-full">
+                <FieldMapper field={field} />
+            </div>
+        ))
+    );
 
     return (
         <FormProvider {...methods}>
-            <form className="space-y-6 p-3" onSubmit={(e) => e.preventDefault()}>
-                {data.forms?.map((form) => {
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                {formGroups.map((group, index) => {
 
-                    const isGridMode = form.fields.length > 5;
-
+                    const totalFields = group.fields?.length || 0;
+                    const isGridMode = totalFields > 5;
 
                     let leftColumn = [];
                     let rightColumn = [];
 
                     if (isGridMode) {
-                        const mid = Math.ceil(form.fields.length / 2);
-                        leftColumn = form.fields.slice(0, mid);
-                        rightColumn = form.fields.slice(mid);
+                        const mid = Math.ceil(totalFields / 2);
+                        leftColumn = group.fields.slice(0, mid);
+                        rightColumn = group.fields.slice(mid);
                     } else {
-                        leftColumn = form.fields;
+                        leftColumn = group.fields;
                     }
-
                     return (
-                        <div key={form.formId} className="bg-white p-6 rounded shadow border border-gray-200">
-                            <h3 className="text-lg font-bold mb-4 border-b pb-2 text-gray-800">
-                                {form.title}
-                            </h3>
+                        <div key={group.form_key || index} className="bg-white p-6 rounded shadow border border-gray-200">
 
-
-                            {isGridMode ? (
-
-                                <div className="flex flex-col lg:flex-row gap-8">
-
-                                    {/* LEFT COLUMN (Fields 1-5) */}
-                                    <div className="w-full lg:w-1/2 flex flex-col space-y-6">
-                                        {leftColumn.map((f) => (
-                                            <FieldMapper key={f.id} field={f} />
-                                        ))}
-                                    </div>
-
-                                    <div className="w-full lg:w-1/2 flex flex-col space-y-6">
-                                        {rightColumn.map((f) => (
-                                            <FieldMapper key={f.id} field={f} />
-                                        ))}
-                                    </div>
-                                </div>
-                            ) : (
-
-                                <div className="flex flex-col space-y-6">
-                                    {leftColumn.map((f) => (
-                                        <FieldMapper key={f.id} field={f} />
-                                    ))}
-                                </div>
+                            {group.title && (
+                                <h3 className="text-lg font-bold mb-4 border-b pb-2 text-gray-800">
+                                    {group.title}
+                                </h3>
                             )}
+
+
+                            <div className={
+                                isGridMode
+                                    ? "flex flex-col lg:flex-row gap-8 items-start"
+                                    : "flex flex-col space-y-6"
+                            }>
+                                <div className={`w-full ${isGridMode ? 'lg:w-1/2' : ''} space-y-6`}>
+                                    {renderFieldList(leftColumn)}
+                                </div>
+
+                                {isGridMode && rightColumn.length > 0 && (
+                                    <div className="w-full lg:w-1/2 space-y-6">
+                                        {renderFieldList(rightColumn)}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     );
                 })}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CheckboxField = ({ field, register, error }) => (
+const CheckboxField = ({ field, register, error }) => (
     <div className="flex flex-row items-start mb-4 w-full">
 
         <div className="w-48 flex-shrink-0 mr-4"></div>
@@ -28,3 +28,6 @@ export const CheckboxField = ({ field, register, error }) => (
         </div>
     </div>
 );
+
+
+export default CheckboxField;
