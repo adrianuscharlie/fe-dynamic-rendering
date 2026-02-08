@@ -1,0 +1,88 @@
+import React, { useState, useRef } from 'react';
+import DynamicGroup from './DynamicGroup';
+
+const GroupContainer = ({ summary, appId }) => {
+    // 1. Default to the first group in the summary list
+    const [activeGroupId, setActiveGroupId] = useState(summary?.groups[0]?.id || 1);
+    const [isSaving, setIsSaving] = useState(false);
+
+    // 2. The connection to the currently active form
+    const formRef = useRef();
+
+    // 3. The "Save-Then-Switch" Logic
+    const handleTabChange = async (targetGroupId) => {
+        // Don't do anything if clicking the same tab
+        if (activeGroupId === targetGroupId) return;
+
+        setIsSaving(true);
+
+        // A. Trigger the Save function inside the CHILD (DynamicGroup)
+        if (formRef.current) {
+            const saveSuccess = await formRef.current.triggerSave();
+
+            // Optional: Block switching if save fails (e.g., validation error)
+            // if (!saveSuccess) {
+            //    setIsSaving(false);
+            //    return; 
+            // }
+        }
+
+        // B. Switch the tab
+        setActiveGroupId(targetGroupId);
+        setIsSaving(false);
+    };
+
+    if (!summary) return <div>Loading Tabs...</div>;
+
+    return (
+        <div className="w-full flex flex-col bg-slate-50 p-6">
+
+            <h1 className='h1 text-xl font-bold'>Tasklist</h1>
+            <div className="flex border-b border-gray-200 overflow-x-auto bg-white">
+                {summary.groups.map((group) => {
+                    const isActive = activeGroupId === group.id;
+                    return (
+                        <button
+                            key={group.id}
+                            onClick={() => handleTabChange(group.id)}
+                            disabled={isSaving}
+                            className={`
+                                py-4 px-6 text-sm font-medium focus:outline-none transition-colors whitespace-nowrap
+                                ${isActive
+                                    ? 'border-b-2 border-red-600 text-red-600'
+                                    : 'text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                }
+                                ${isSaving ? 'opacity-50 cursor-wait' : ''}
+                            `}
+                        >
+                            {/* Status Indicator Dot */}
+                            <span className={`inline-block w-2 h-2 rounded-full mr-2 
+                                ${group.status === 'COMPLETED' ? 'bg-green-500' :
+                                    group.status === 'IN_PROGRESS' ? 'bg-yellow-500' : 'bg-gray-300'}
+                            `}></span>
+
+                            {group.label}
+                        </button>
+                    );
+                })}
+            </div>
+
+            {/* --- ACTIVE FORM CONTENT --- */}
+            <div className="min-h-[400px] relative bg-white">
+                {isSaving && (
+                    <div className="absolute inset-0 bg-white/50 z-10 flex items-center justify-center">
+                        <span className="text-blue-600 font-bold animate-pulse">Saving...</span>
+                    </div>
+                )}
+                <DynamicGroup
+                    ref={formRef}
+                    appId={appId}
+                    groupNo={activeGroupId}
+                />
+            </div>
+
+        </div>
+    );
+};
+
+export default GroupContainer;
