@@ -6,7 +6,7 @@ const DRAFT_DB = {
 };
 
 
-const SCHEMAS = {
+export const SCHEMAS = {
     1: {
         meta: { title: "Introduction", groupNo: 1, status: "COMPLETED" },
         forms: [

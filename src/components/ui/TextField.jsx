@@ -1,10 +1,6 @@
 export const TextField = ({ field, register, error, type = "text" }) => (
     <div className="flex flex-row items-center mb-4 w-full">
 
-        {/* FIX 1: Change 'w-1/3' to 'w-48' (fixed width approx 200px) 
-           FIX 2: Ensure 'text-left' is used
-           FIX 3: Add 'flex-shrink-0' so the label never squishes
-        */}
         <label
             htmlFor={field.id}
             className="w-48 text-sm font-medium text-gray-700 text-left flex-shrink-0 mr-4"
@@ -12,7 +8,6 @@ export const TextField = ({ field, register, error, type = "text" }) => (
             {field.label} {field.required && <span className="text-red-500">*</span>}
         </label>
 
-        {/* FIX 4: Use 'flex-1' (or w-full) to make the input take the REST of the space */}
         <div className="flex-1 flex flex-col">
             <input
                 id={field.id}

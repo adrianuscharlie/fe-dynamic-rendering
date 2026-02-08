@@ -2,32 +2,24 @@ import React, { useState, useRef } from 'react';
 import DynamicGroup from './DynamicGroup';
 
 const GroupContainer = ({ summary, appId }) => {
-    // 1. Default to the first group in the summary list
     const [activeGroupId, setActiveGroupId] = useState(summary?.groups[0]?.id || 1);
     const [isSaving, setIsSaving] = useState(false);
 
-    // 2. The connection to the currently active form
+
     const formRef = useRef();
 
-    // 3. The "Save-Then-Switch" Logic
+
     const handleTabChange = async (targetGroupId) => {
-        // Don't do anything if clicking the same tab
+
         if (activeGroupId === targetGroupId) return;
 
         setIsSaving(true);
 
-        // A. Trigger the Save function inside the CHILD (DynamicGroup)
         if (formRef.current) {
             const saveSuccess = await formRef.current.triggerSave();
 
-            // Optional: Block switching if save fails (e.g., validation error)
-            // if (!saveSuccess) {
-            //    setIsSaving(false);
-            //    return; 
-            // }
         }
 
-        // B. Switch the tab
         setActiveGroupId(targetGroupId);
         setIsSaving(false);
     };
@@ -55,7 +47,7 @@ const GroupContainer = ({ summary, appId }) => {
                                 ${isSaving ? 'opacity-50 cursor-wait' : ''}
                             `}
                         >
-                            {/* Status Indicator Dot */}
+
                             <span className={`inline-block w-2 h-2 rounded-full mr-2 
                                 ${group.status === 'COMPLETED' ? 'bg-green-500' :
                                     group.status === 'IN_PROGRESS' ? 'bg-yellow-500' : 'bg-gray-300'}
@@ -67,7 +59,6 @@ const GroupContainer = ({ summary, appId }) => {
                 })}
             </div>
 
-            {/* --- ACTIVE FORM CONTENT --- */}
             <div className="min-h-[400px] relative bg-white">
                 {isSaving && (
                     <div className="absolute inset-0 bg-white/50 z-10 flex items-center justify-center">

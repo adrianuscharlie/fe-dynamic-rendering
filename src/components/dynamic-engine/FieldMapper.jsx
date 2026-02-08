@@ -9,15 +9,11 @@ import { TextAreaField } from '../ui/TextAreaField';
 import { SelectField } from '../ui/SelectField';
 
 export const FieldMapper = ({ field }) => {
-    // We grab the register function here to keep the child components clean
     const { register, formState: { errors } } = useFormContext();
 
-    // Standardize props for all field types
     const commonProps = {
         field,
-        // Registers the input with React Hook Form
         register: register(field.id, { required: field.required }),
-        // Passes the error object for this specific field
         error: errors[field.id],
     };
 

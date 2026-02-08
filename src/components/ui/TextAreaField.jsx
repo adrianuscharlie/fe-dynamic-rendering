@@ -2,7 +2,6 @@ import React from 'react';
 
 export const TextAreaField = ({ field, register, error }) => (
     <div className="flex flex-row items-start mb-4 w-full">
-        {/* Fixed width label, left aligned, with top padding */}
         <label
             htmlFor={field.id}
             className="w-48 text-sm font-medium text-gray-700 text-left flex-shrink-0 mr-4 pt-2"

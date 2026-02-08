@@ -14,11 +14,6 @@ const FormBuilder = ({ section, register, errors }) => {
                 )}
             </div>
 
-            {/* LAYOUT FIX: 
-                1. Removed 'grid' and 'grid-cols-2'. 
-                2. Used 'flex flex-col' to force a vertical stack.
-                3. Added 'space-y-4' for consistent gap between rows.
-            */}
             <div className="flex flex-col space-y-4 w-full">
                 {section.fields.map((field) => (
                     <div key={field.id} className="w-full">

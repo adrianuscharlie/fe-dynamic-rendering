@@ -2,7 +2,7 @@ import React from 'react';
 
 export const CheckboxField = ({ field, register, error }) => (
     <div className="flex flex-row items-start mb-4 w-full">
-        {/* Empty Label Column to maintain alignment with other fields */}
+
         <div className="w-48 flex-shrink-0 mr-4"></div>
 
         <div className="flex-1 flex flex-col">
