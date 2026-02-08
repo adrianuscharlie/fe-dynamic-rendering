@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SelectField = ({ field, register, error }) => {
+const SelectField = ({ field, register, error, disabled }) => {
     const isRequired = field.rules?.some(r => r.type === 'REQUIRED');
 
     return (
@@ -15,6 +15,7 @@ const SelectField = ({ field, register, error }) => {
             <div className="flex-1 flex flex-col">
                 <select
                     id={field.id}
+                    disabled={disabled}
                     {...register}
                     className={`w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none transition bg-white
                         ${error ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}

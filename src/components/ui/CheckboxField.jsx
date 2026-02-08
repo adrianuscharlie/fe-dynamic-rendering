@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CheckboxField = ({ field, register, error }) => (
+const CheckboxField = ({ field, register, error, disabled }) => (
     <div className="flex flex-row items-start mb-4 w-full">
 
         <div className="w-48 flex-shrink-0 mr-4"></div>
@@ -11,6 +11,7 @@ const CheckboxField = ({ field, register, error }) => (
                     <input
                         id={field.id}
                         type="checkbox"
+                        disabled={disabled}
                         {...register}
                         className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />

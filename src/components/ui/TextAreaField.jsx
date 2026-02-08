@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TextAreaField = ({ field, register, error }) => {
+const TextAreaField = ({ field, register, error, disabled }) => {
     const isRequired = field.rules?.some(r => r.type === 'REQUIRED');
 
     return (
@@ -16,6 +16,7 @@ const TextAreaField = ({ field, register, error }) => {
                 <textarea
                     id={field.id}
                     rows={field.rows || 3}
+                    disabled={disabled}
                     placeholder={field.placeholder}
                     {...register}
                     className={`w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none transition resize-y

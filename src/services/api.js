@@ -21,3 +21,12 @@ export const saveDraft = async (appid, groupNo, data) => {
 
 
 
+export const updateAppStatus = async (appid, status) => {
+    // Mock implementation of status update
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log(`Application ${appid} status updated to ${status}`);
+            resolve({ success: true });
+        }, 500);
+    });
+}

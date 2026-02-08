@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RadioField = ({ field, register, error }) => {
+const RadioField = ({ field, register, error, disabled }) => {
     const isRequired = field.rules?.some(r => r.type === 'REQUIRED');
 
     return (
@@ -17,6 +17,7 @@ const RadioField = ({ field, register, error }) => {
                             <input
                                 type="radio"
                                 value={opt.code}
+                                disabled={disabled}
                                 {...register}
                                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                             />

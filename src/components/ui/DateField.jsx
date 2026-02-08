@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DateField = ({ field, register, error }) => {
+const DateField = ({ field, register, error, disabled }) => {
     const isRequired = field.rules?.some(r => r.type === 'REQUIRED');
 
     // Optional: Extract min/max from validations array if they exist
@@ -20,6 +20,7 @@ const DateField = ({ field, register, error }) => {
                 <input
                     id={field.id}
                     type="date"
+                    disabled={disabled}
                     min={dateRange.min_date}
                     max={dateRange.max_date}
                     {...register}

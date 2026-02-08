@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TextField = ({ field, register, error, type = "text" }) => {
+const TextField = ({ field, register, error, type = "text", disabled }) => {
     // Check if "REQUIRED" rule exists
     const isRequired = field.rules?.some(r => r.type === 'REQUIRED');
 
@@ -16,6 +16,7 @@ const TextField = ({ field, register, error, type = "text" }) => {
             <div className="flex-1 flex flex-col">
                 <input
                     id={field.id}
+                    disabled={disabled}
                     type={type} // 'text', 'email', 'number', etc.
                     {...register}
                     className={`w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none transition

@@ -47,12 +47,6 @@ const GroupContainer = ({ summary, appId }) => {
                                 ${isSaving ? 'opacity-50 cursor-wait' : ''}
                             `}
                         >
-
-                            <span className={`inline-block w-2 h-2 rounded-full mr-2 
-                                ${group.status === 'COMPLETED' ? 'bg-green-500' :
-                                    group.status === 'IN_PROGRESS' ? 'bg-yellow-500' : 'bg-gray-300'}
-                            `}></span>
-
                             {group.label}
                         </button>
                     );

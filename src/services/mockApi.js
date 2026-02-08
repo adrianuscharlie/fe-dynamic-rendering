@@ -231,6 +231,56 @@ export const SCHEMAS = {
                             options: [] // Empty as per request
                         }
                     ]
+                },
+                {
+                    form_key: "dataLainnya",
+                    title: "Data Lainnya",
+                    group: 3,
+                    order: 3,
+                    is_submitted: false,
+                    fields: [
+                        {
+                            field_key: "wajibPajakUS",
+                            type: "RADIO_BUTTON",
+                            label: "Wajib Pajak US",
+                            order: 1,
+                            rules: [], // Not Required
+                            options: [
+                                { code: "ya", title: "Ya" },
+                                { code: "tidak", title: "Tidak" }
+                            ]
+                        },
+                        {
+                            field_key: "wajiNegaraLain",
+                            type: "RADIO_BUTTON",
+                            label: "Wajib Pajak Negara Lain",
+                            order: 2,
+                            rules: [], // Not Required
+                            options: [
+                                { code: "ya", title: "Ya" },
+                                { code: "tidak", title: "Tidak" }
+                            ]
+                        },
+                        {
+                            field_key: "highRisk",
+                            type: "RADIO_BUTTON",
+                            label: "High Risk",
+                            order: 3,
+                            rules: [{ type: "DISABLED" }],
+                            options: [
+                                { code: "ya", title: "Ya" },
+                                { code: "tidak", title: "Tidak" }
+                            ]
+                        },
+                        {
+                            field_key: "tujuanPembukaanRekening",
+                            type: "DROP_DOWN_BASIC",
+                            label: "Tujuan Pembukaan Rekening",
+                            order: 4,
+                            rules: [{ type: "REQUIRED" }],
+                            options: [] // Empty as per request
+                        }
+                    ]
                 }
             ]
         }
